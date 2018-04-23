@@ -1,5 +1,3 @@
-import { environment } from './../environments/environment.prod';
-
 import { UpdateGame } from './../store/actions/game.action';
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, FormArray, NgForm, Validators, FormGroupDirective, FormBuilder } from '@angular/forms';
@@ -30,7 +28,9 @@ export class AppComponent implements OnInit, OnDestroy {
   displayedColumns = ['position', 'first', 'second', 'bonus', 'shotResult', 'augmentedPoints'];
 
   constructor(private store: Store<any>, public fb: FormBuilder) {
+    
     this.store_observable = store.pipe(select(fromStore.getGamesState));
+
     this.subscription = this.store_observable.subscribe(game => {
       this.frames$ = game;
       this.cloned_game = cloneDeep(game);

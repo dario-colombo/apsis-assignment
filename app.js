@@ -23,6 +23,7 @@ var App = /** @class */ (function () {
     };
     // Configure API endpoints.
     App.prototype.routes = function () {
+        // FRONTEND
         var angularApp = express.static(path.join(__dirname, 'dist'));
         this.express.use('/', angularApp);
         //  API;
