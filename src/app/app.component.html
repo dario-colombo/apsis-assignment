@@ -1,0 +1,86 @@
+<div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
+  <div class="item item-1" fxFlex="15%"></div>
+
+  <div class="item item-2" fxFlex>
+    <h1>
+       {{status}} / Available shots: {{ avilable_shots }} / Score: {{frames$.score }}
+    </h1>
+
+    <form class="form" [formGroup]="gameForm" (ngSubmit)="onSubmit(gameForm)">
+
+      <div>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="First ball" type="number" name="first" formControlName="first">
+          <mat-error *ngIf="gameForm.controls['first'].errors">
+            {{gameForm.controls['first'].errors |json}}
+          </mat-error>
+
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Second ball"  type="number" name="second" formControlName="second">
+          <mat-error *ngIf="gameForm.controls['second'].errors">
+            {{gameForm.controls['first'].errors |json}}
+          </mat-error>
+
+
+        </mat-form-field>
+
+
+        <button mat-raised-button color="primary" [disabled]="!gameForm.valid || avilable_shots<=0 || chekSum()" class="loginButton">Save</button>
+         
+      </div>
+
+      <div *ngIf="chekSum()">
+        <span class="alert">sum of {{gameForm.controls['first'].value}} + {{gameForm.controls['second'].value}} grater than 10</span>
+      </div>
+
+      <!--     <pre>{{gameForm.value | json}}</pre>
+      <pre>{{frames$  | json}}</pre>
+    -->
+    </form>
+    <br>
+    <br>
+    <div class="mat-elevation-z8 not-all">
+      <mat-table #table [dataSource]="frames$.frames">
+
+        <ng-container matColumnDef="position">
+          <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+          <mat-cell *matCellDef="let element;let i = index;"> {{i+1}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="first">
+          <mat-header-cell *matHeaderCellDef> First Ball </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.first}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="second">
+          <mat-header-cell *matHeaderCellDef> Second Ball </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.second}} </mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="bonus">
+          <mat-header-cell *matHeaderCellDef> Bonus Shots </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.bonus||'-'}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="shotResult">
+          <mat-header-cell *matHeaderCellDef> Type</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.shotResult}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="augmentedPoints">
+          <mat-header-cell *matHeaderCellDef> Calculated Points</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.augmentedPoints}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+
+
+  </div>
+  <div class="item item-3" fxFlex="15%"></div>
+</div>
